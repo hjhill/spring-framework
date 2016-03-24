@@ -25,6 +25,7 @@ configure(allprojects) { project ->
 
 	apply plugin: "propdeps"
 	apply plugin: "java"
+	apply plugin: "osgi"
 	apply plugin: "test-source-set-dependencies"
 	apply from: "${gradleScriptDir}/ide.gradle"
 
@@ -265,6 +266,18 @@ project("spring-beans") {
 		provided("javax.el:el-api:1.0")
 		provided("javax.inject:javax.inject:1")
 		testCompile("log4j:log4j:1.2.17")
+	}
+
+	jar {
+		manifest {
+			instruction 'Import-Package', 'javax.el;version="[1.0.0, 3.0.0)";resolution:="optional"', \
+			                              'javax.inject;version="[1.0.0, 2.0.0)";resolution:="optional"', \
+			                              'javax.xml.parsers;version="0";resolution:="optional"', \
+			                              'org.apache.commons.logging;version="[1.1.1, 2.0.0)"', \
+			                              'org.w3c.dom;version="0";resolution:="optional"', \
+			                              'org.xml.sax;version="0";resolution:="optional"', \
+			                              '*'
+		}
 	}
 }
 
